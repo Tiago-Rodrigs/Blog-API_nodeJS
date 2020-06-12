@@ -3,24 +3,28 @@ const { QueryTypes } = require("sequelize");
 
 const searchUsers = (req, res) => {
   const requiredUser = req.query.requiredUser;
-  const activeUserId = req.query.activeUserId;
+  const profileId = req.query.profileId;
 
   sequelize
     .query(
-      `SELECT users.name, users.id, followers.following FROM users LEFT JOIN followers ON users.id = followers.following WHERE name = $requiredUser AND users.id != $activeUserId`,
+      `SELECT users.name, users.id, followes.follower, followes.following 
+      FROM users LEFT JOIN followes 
+      ON users.id = followes.following AND followes.follower = $profileId 
+      OR users.id = followes.following and followes.follower IS null 
+      WHERE users.name = $requiredUser AND users.id != $profileId`,
       {
         bind: {
           requiredUser: requiredUser,
-          activeUserId: activeUserId,
+          profileId: profileId,
         },
         type: QueryTypes.SELECT,
       }
     )
     .then((users) => {
+      console.log(users);
       res.send(users);
     })
-    .catch((err) => {
-      res.send(err);
+    .catch(() => {
       res.json("User not found");
     });
 };

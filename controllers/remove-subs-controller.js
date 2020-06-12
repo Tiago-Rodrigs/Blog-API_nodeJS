@@ -1,15 +1,14 @@
 const sequelize = require("../config/sequelize");
 const { QueryTypes } = require("sequelize");
 
-const removeSubscription = (req, res, next) => {
-  const followingUserId = req.query.followingId;
-  const activeUserId = req.query.activeUserId;
-  const statusSubsBtn = req.query.status;
+const removeSubscription = (req, res) => {
+  const followingUserId = req.body.followingId;
+  const activeUserId = req.body.profileId;
 
-  if (followingUserId && statusSubsBtn) {
+  if (followingUserId) {
     sequelize
       .query(
-        `DELETE FROM followers WHERE follower = $followerUserId AND following = $followingUserId`,
+        `DELETE FROM followes WHERE follower = $followerUserId AND following = $followingUserId`,
         {
           bind: {
             followerUserId: activeUserId,
@@ -24,8 +23,6 @@ const removeSubscription = (req, res, next) => {
       .catch((err) => {
         res.send(err);
       });
-  } else {
-    next();
   }
 };
 
