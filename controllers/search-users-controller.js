@@ -7,21 +7,19 @@ const searchUsers = (req, res) => {
 
   sequelize
     .query(
-      `SELECT users.name, users.id, followes.follower, followes.following 
-      FROM users LEFT JOIN followes 
-      ON users.id = followes.following AND followes.follower = $profileId 
-      OR users.id = followes.following and followes.follower IS null 
-      WHERE users.name = $requiredUser AND users.id != $profileId`,
+      `SELECT users.name, users.id, CAST((CAST(followes.following AS CHARACTER)) AS BOOLEAN)
+      FROM users LEFT JOIN followes
+      ON users.id = followes.following AND followes.follower = :profileId
+      WHERE users.name ILIKE :requiredUser AND users.id != :profileId`,
       {
-        bind: {
-          requiredUser: requiredUser,
-          profileId: profileId,
+        replacements: {
+          requiredUser: `%${requiredUser}%`,
+          profileId,
         },
         type: QueryTypes.SELECT,
       }
     )
     .then((users) => {
-      console.log(users);
       res.send(users);
     })
     .catch(() => {

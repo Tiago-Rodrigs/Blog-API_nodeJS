@@ -9,7 +9,9 @@ const myPostsController = require("../../controllers/my-post-controller");
 users.get("/", checkToken, searchController.searchUsers);
 users.get("/search", checkToken, searchController.searchUsers);
 users.get("/:id/posts", checkToken, myPostsController.getMyPosts);
+
 users.put("/search", checkToken, addSubsController.addSubscription);
+
 users.delete("/search", checkToken, removeSubsController.removeSubscription);
 
 module.exports = users;
