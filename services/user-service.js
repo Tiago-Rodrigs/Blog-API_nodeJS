@@ -1,4 +1,4 @@
-const sequelize = require("../config/sequelize");
+const { sequelize } = require("../config/sequelize");
 const { QueryTypes } = require("sequelize");
 
 module.exports = {

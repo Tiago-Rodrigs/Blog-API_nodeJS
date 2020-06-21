@@ -1,6 +1,7 @@
-module.exports = (sequelize, Sequelize) => {
-  return sequelize.define(
-    "followes",
+module.exports = function (sequelize, Sequelize) {
+  const Model = Sequelize.Model;
+  class Followers extends Model {}
+  Followers.init(
     {
       id: {
         type: Sequelize.INTEGER,
@@ -16,13 +17,12 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: sequelize.User,
+          model: 'users',
           key: "id",
         },
       },
     },
-    {
-      tableName: "followes",
-    }
+    { sequelize, modelName: "followers" }
   );
+  return Followers;
 };

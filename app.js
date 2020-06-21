@@ -1,16 +1,13 @@
 const express = require("express");
-const path = require("path");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const app = express();
-const base = process.cwd();
 
 app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(base, "/public")));
 
 const signUpRouter = require("./routes/rest/signUp");
 const signInRouter = require("./routes/rest/signIn");

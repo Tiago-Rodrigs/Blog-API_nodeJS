@@ -1,6 +1,7 @@
-module.exports = (sequelize, Sequelize) => {
-  return sequelize.define(
-    "user",
+module.exports = function (sequelize, Sequelize) {
+  const Model = Sequelize.Model;
+  class User extends Model {}
+  User.init(
     {
       id: {
         type: Sequelize.INTEGER,
@@ -26,9 +27,20 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: true,
       },
     },
-    {
-      underscored: true,
-      tableName: "users",
-    }
+    { sequelize, modelName: "users", underscored: true }
   );
+  return User
 };
+
+// User.hasOne(Followes, {
+//   targetKey: "id",
+//   foreignKey: "following",
+//   as: "followes",
+//   onDelete: "cascade",
+// });
+
+// User.hasMany(Post, {
+//   foreignKey: "author_id",
+//   as: "posts",
+//   onDelete: "cascade",
+// });

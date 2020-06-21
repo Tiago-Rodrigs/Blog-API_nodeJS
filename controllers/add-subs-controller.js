@@ -1,4 +1,4 @@
-const sequelize = require("../config/sequelize");
+const { sequelize } = require("../config/sequelize");
 const { QueryTypes } = require("sequelize");
 
 const addSubscription = (req, res) => {
@@ -8,7 +8,7 @@ const addSubscription = (req, res) => {
   if (followingUserId) {
     sequelize
       .query(
-        `INSERT INTO followes (follower, following) VALUES ($followerUserId, $followingUserId)`,
+        `INSERT INTO followers (follower, following) VALUES ($followerUserId, $followingUserId)`,
         {
           bind: {
             followerUserId: activeUserId,

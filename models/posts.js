@@ -1,6 +1,7 @@
-module.exports = (sequelize, Sequelize) => {
-  return sequelize.define(
-    "post",
+module.exports = function (sequelize, Sequelize) {
+  const Model = Sequelize.Model;
+  class Posts extends Model {}
+  Posts.init(
     {
       id: {
         type: Sequelize.INTEGER,
@@ -23,12 +24,10 @@ module.exports = (sequelize, Sequelize) => {
       author_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: sequelize.User, key: "id" },
+        references: { model: "users", key: "id" },
       },
     },
-    {
-      underscored: true,
-      tableName: "posts",
-    }
+    { sequelize, modelName: "posts", underscored: true }
   );
+  return Posts;
 };
