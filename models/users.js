@@ -1,7 +1,7 @@
 module.exports = function (sequelize, Sequelize) {
   const Model = Sequelize.Model;
-  class User extends Model {}
-  User.init(
+  class Users extends Model {}
+  Users.init(
     {
       id: {
         type: Sequelize.INTEGER,
@@ -29,17 +29,17 @@ module.exports = function (sequelize, Sequelize) {
     },
     { sequelize, modelName: "users", underscored: true }
   );
-  return User
+  return Users
 };
 
-// User.hasOne(Followes, {
+// Users.hasOne(Followers, {
 //   targetKey: "id",
 //   foreignKey: "following",
-//   as: "followes",
+//   as: "followers",
 //   onDelete: "cascade",
 // });
 
-// User.hasMany(Post, {
+// Users.hasMany(Posts, {
 //   foreignKey: "author_id",
 //   as: "posts",
 //   onDelete: "cascade",

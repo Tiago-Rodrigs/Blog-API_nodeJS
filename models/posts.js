@@ -6,14 +6,10 @@ module.exports = function (sequelize, Sequelize) {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncremet: true,
+        autoIncrement: true,
         allowNull: false,
       },
       title: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      date: {
         type: Sequelize.STRING,
         allowNull: false,
       },

@@ -1,22 +1,28 @@
-const { sequelize } = require("../config/sequelize");
+const { sequelize, Followers } = require("../config/sequelize");
 const { QueryTypes } = require("sequelize");
 
 const removeSubscription = (req, res) => {
-  const followingUserId = req.body.followingId;
-  const activeUserId = req.body.profileId;
+  const following = req.body.followingId;
+  const follower = req.body.profileId;
 
-  if (followingUserId) {
-    sequelize
-      .query(
-        `DELETE FROM followers WHERE follower = $followerUserId AND following = $followingUserId`,
-        {
-          bind: {
-            followerUserId: activeUserId,
-            followingUserId: followingUserId,
-          },
-          type: QueryTypes.DELETE,
-        }
-      )
+  if (following) {
+    Followers.destroy({
+      where: {
+        follower,
+        following,
+      },
+    })
+      // sequelize
+      //   .query(
+      //     `DELETE FROM followers WHERE follower = $follower AND following = $following`,
+      //     {
+      //       bind: {
+      //         follower,
+      //         following,
+      //       },
+      //       type: QueryTypes.DELETE,
+      //     }
+      //   )
       .then((res) => {
         res.status(200).end();
       })
