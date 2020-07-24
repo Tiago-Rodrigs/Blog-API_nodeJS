@@ -31,16 +31,3 @@ module.exports = function (sequelize, Sequelize) {
   );
   return Users
 };
-
-// Users.hasOne(Followers, {
-//   targetKey: "id",
-//   foreignKey: "following",
-//   as: "followers",
-//   onDelete: "cascade",
-// });
-
-// Users.hasMany(Posts, {
-//   foreignKey: "author_id",
-//   as: "posts",
-//   onDelete: "cascade",
-// });

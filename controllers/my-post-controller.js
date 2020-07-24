@@ -6,27 +6,15 @@ const getMyPosts = (req, res) => {
   const activeUserId = req.params.id;
 
   Posts.findAll({
-    attributes: [
-      "id",
-      "title",
-      "date",
-      "text",
-      "author_id",
-      {
-        model: Users,
-        attributes: ["name"],
-      },
-    ],
+    attributes: ["id", "title", "text", "author_id"],
     include: [
       {
         model: Users,
-        where: { id: Sequelize.col("Posts.author_id") },
+        association: "users",
+        attributes: ["name"],
+        where: { id: activeUserId },
       },
     ],
-    where: {
-      model: Users,
-      where: { id: activeUserId },
-    },
   })
     // sequelize
     //   .query(

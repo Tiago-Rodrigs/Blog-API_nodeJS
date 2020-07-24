@@ -1,25 +1,32 @@
 // const { sequelize } = require("../config/sequelize");
 // const { QueryTypes } = require("sequelize");
-const { Users, Posts, Sequelize } = require("../config/sequelize");
+const { Users, Posts, Op, Followers } = require("../config/sequelize");
 
 const getFriendsPost = (req, res) => {
   const activeUserId = req.query.id;
 
   Posts.findAll({
-    attributes: ["id", "title", "date", "text", "author_id", {
-      model: Users,
-      attributes: ["name"],
-    }],
+    attributes: ["id", "title", "text", "author_id"],
     include: [
       {
         model: Users,
-        where: { id: Sequelize.col("Posts.author_id") },
+        association: "users",
+        attributes: ["name"],
+        where: {
+          id: {
+            [Op.in]: [
+              Followers.findAll({
+                attributes: ["following"],
+                where: (follower = activeUserId),
+              }),
+            ],
+          },
+          [Op.and]: {
+            // author_id: !null,
+          }
+        },
       },
     ],
-    where: {
-      model: Users,
-      where: { id: activeUserId },
-    },
   })
     // sequelize
     //   .query(
