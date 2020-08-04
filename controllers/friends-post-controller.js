@@ -7,26 +7,23 @@ const getFriendsPost = (req, res) => {
 
   Posts.findAll({
     attributes: ["id", "title", "text", "author_id"],
-    include: [
-      {
-        model: Users,
-        association: "users",
-        attributes: ["name"],
-        where: {
-          id: {
-            [Op.in]: [
-              Followers.findAll({
-                attributes: ["following"],
-                where: (follower = activeUserId),
-              }),
-            ],
-          },
-          [Op.and]: {
-            // author_id: !null,
-          }
-        },
+    include: {
+      model: Users,
+      attributes: ["name"],
+      // [Op.and]: {
+      // author_id: !null,
+      // }
+    },
+    where: {
+      id: {
+        [Op.in]: [
+          Followers.findAll({
+            attributes: ["following"],
+            where: { follower: activeUserId },
+          }),
+        ],
       },
-    ],
+    },
   })
     // sequelize
     //   .query(
