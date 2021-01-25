@@ -1,4 +1,4 @@
-# MyBlog
+# Blog (Backend part)
 
 This application is a backend part of the application "Blog".
 Frontend part you can find at the [link](https://github.com/Oops61rus/Blog-React_Redux)
